@@ -91,7 +91,7 @@ bot.send_document(chat_id: 123456789, document: my_secret_file)
 # SENDING STICKERS
 # https://core.telegram.org/bots/api/#sendsticker
 sticker_image_file = File.open("sticker.jpg")
-bot.send_audio(chat_id: 123456789, audio: sticker_image_file)
+bot.send_sticker(chat_id: 123456789, sticker: sticker_image_file)
 
 # SENDING VIDEOS
 # https://core.telegram.org/bots/api/#sendvideo
