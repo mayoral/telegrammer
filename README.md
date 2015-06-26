@@ -27,7 +27,7 @@ All current actions are supported by the gem. Here's an example for each action:
 ```ruby
 require 'telegrammer'
 
-bot = TelegramBot.new('[YOUR TELEGRAM TOKEN]')
+bot = Telegrammer::Bot.new('[YOUR TELEGRAM TOKEN]')
 
 # GET UPDATES
 # https://core.telegram.org/bots/api/#getupdates
