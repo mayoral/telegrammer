@@ -1,3 +1,8 @@
+v0.0.3
+======
+
+* Set default values in ReplyKeyboardHide, ReplyKeyboardMarkup and ForceReply objects so they match official documentation.
+
 v0.0.2
 ======
 
