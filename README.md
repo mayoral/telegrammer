@@ -101,11 +101,6 @@ bot.send_sticker(chat_id: 123456789, sticker: sticker_image_file)
 video_file = File.open("foo.mp4")
 bot.send_audio(chat_id: 123456789, video: video_file)
 
-# SENDING DOCUMENTS
-# https://core.telegram.org/bots/api/#senddocument
-file = File.open("foo.ogg")
-bot.send_audio(chat_id: 123456789, audio: file)
-
 # SENDING LOCATIONS
 # https://core.telegram.org/bots/api/#sendlocation
 bot.send_location(chat_id: 123456789, latitude: 38.775539, longitude: -4.829988)
