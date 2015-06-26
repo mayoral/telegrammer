@@ -1,3 +1,6 @@
+[![Gem Version](https://badge.fury.io/rb/telegrammer.svg)](http://badge.fury.io/rb/telegrammer)
+[![Code Climate](https://codeclimate.com/github/mayoral/telegrammer/badges/gpa.svg)](https://codeclimate.com/github/mayoral/telegrammer)
+
 # Telegrammer
 
 Ruby client for the [Telegram's Bot API](https://core.telegram.org/bots/api).
