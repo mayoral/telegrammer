@@ -56,7 +56,7 @@ reply_markup = Telegrammer::DataTypes::ReplyKeyboardMarkup.new(
 # This message will activate a custom keyboard...
 bot.send_message(
   chat_id: 1460713,
-  text: "Select an option"
+  text: "Select an option",
   reply_markup: reply_markup
 )
 
