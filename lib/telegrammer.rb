@@ -28,21 +28,31 @@ require "telegrammer/api_response"
 
 module Telegrammer
   module Errors
+    # Error returned when a required param is missing
     class MissingParamsError < StandardError
       def initialize(parameter, action)
         super("Missing parameter #{parameter} for action #{action}")
       end
     end
 
+    # Error returned when a param type is invalid
     class InvalidParamTypeError < StandardError
       def initialize(parameter, current_type, allowed_types)
         super("Invalid parameter type: #{parameter}: #{current_type}. Allowed types: #{allowed_types.each {|type| type.class.to_s }.join(",")}.")
       end
     end
 
+    # Error returned when something goes bad with your request to the Telegram API
     class BadRequestError < StandardError
       def initialize(error_code, message)
         super("Bad request. Error code: #{error_code} - Message: #{message}")
+      end
+    end
+
+    # Error returned when Telegram API Service is unavailable
+    class ServiceUnavailableError < StandardError
+      def initialize(status_code)
+        super("Telegram API Service unavailable (HTTP error code #{status_code})")
       end
     end
   end
