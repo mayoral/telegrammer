@@ -1,3 +1,11 @@
+v0.1.0
+======
+
+* Fixing coercion in Telegrammer::DataTypes::Channel.
+* Fixed some Telegram data types.
+* Better error handling when Telegram API servers are down.
+* Improved documentation.
+
 v0.0.3
 ======
 
