@@ -109,21 +109,12 @@ module Telegrammer
     #
     # @return [Telegrammer::DataTypes::Message] Message object sent to the user or group chat
     def send_message(params)
-      params_validation = {
-        chat_id: { required: true, class: [Fixnum] },
+      extra_params_validation = {
         text: { required: true, class: [String] },
-        disable_web_page_preview: { required: false, class: [TrueClass, FalseClass] },
-        reply_to_message_id: { required: false, class: [Fixnum] },
-        reply_markup: { required: false, class: [
-          Telegrammer::DataTypes::ReplyKeyboardMarkup,
-          Telegrammer::DataTypes::ReplyKeyboardHide,
-          Telegrammer::DataTypes::ForceReply,
-        ]}
+        disable_web_page_preview: { required: false, class: [TrueClass, FalseClass] }
       }
 
-      response = api_request("sendMessage", params, params_validation)
-
-      Telegrammer::DataTypes::Message.new(response.result)
+      send_something(:message, params, extra_params_validation)
     end
 
     # Forward message to a user or group chat.
@@ -178,21 +169,12 @@ module Telegrammer
     # @see #send_document
     # @return [Telegrammer::DataTypes::Message] Message object sent to the user or group chat
     def send_photo(params)
-      params_validation = {
-        chat_id: { required: true, class: [Fixnum] },
-        photo: { required: true, class: [File, String] },
-        caption: { required: false, class: [String] },
-        reply_to_message_id: { required: false, class: [String] },
-        reply_markup: { required: false, class: [
-          Telegrammer::DataTypes::ReplyKeyboardMarkup,
-          Telegrammer::DataTypes::ReplyKeyboardHide,
-          Telegrammer::DataTypes::ForceReply,
-        ]}
+      extra_params_validation = {
+        photo: { required: false, class: [File, String] },
+        caption: { required: false, class: [String] }
       }
 
-      response = api_request("sendPhoto", params, params_validation)
-
-      Telegrammer::DataTypes::Message.new(response.result)
+      send_something(:photo, params, extra_params_validation)
     end
 
     # Sends audio file to a user or group chat.
@@ -216,20 +198,11 @@ module Telegrammer
     # @see #send_document
     # @return [Telegrammer::DataTypes::Message] Message object sent to the user or group chat
     def send_audio(params)
-      params_validation = {
-        chat_id: { required: true, class: [Fixnum] },
-        audio: { required: true, class: [File, String] },
-        reply_to_message_id: { required: false, class: [String] },
-        reply_markup: { required: false, class: [
-          Telegrammer::DataTypes::ReplyKeyboardMarkup,
-          Telegrammer::DataTypes::ReplyKeyboardHide,
-          Telegrammer::DataTypes::ForceReply,
-        ]}
+      extra_params_validation = {
+        audio: { required: false, class: [File, String] }
       }
 
-      response = api_request("sendAudio", params, params_validation)
-
-      Telegrammer::DataTypes::Message.new(response.result)
+      send_something(:audio, params, extra_params_validation)
     end
 
     # Sends a document to a user or group chat.
@@ -250,20 +223,11 @@ module Telegrammer
     #
     # @return [Telegrammer::DataTypes::Message] Message object sent to the user or group chat
     def send_document(params)
-      params_validation = {
-        chat_id: { required: true, class: [Fixnum] },
-        document: { required: false, class: [File, String] },
-        reply_to_message_id: { required: false, class: [String] },
-        reply_markup: { required: false, class: [
-          Telegrammer::DataTypes::ReplyKeyboardMarkup,
-          Telegrammer::DataTypes::ReplyKeyboardHide,
-          Telegrammer::DataTypes::ForceReply,
-        ]}
+      extra_params_validation = {
+        document: { required: false, class: [File, String] }
       }
 
-      response = api_request("sendDocument", params, params_validation)
-
-      Telegrammer::DataTypes::Message.new(response.result)
+      send_something(:document, params, extra_params_validation)
     end
 
     # Send WebP images as stickers.
@@ -285,20 +249,11 @@ module Telegrammer
     # @see #send_document
     # @return [Telegrammer::DataTypes::Message] Message object sent to the user or group chat
     def send_sticker(params)
-      params_validation = {
-        chat_id: { required: true, class: [Fixnum] },
-        sticker: { required: true, class: [File, String] },
-        reply_to_message_id: { required: false, class: [String] },
-        reply_markup: { required: false, class: [
-          Telegrammer::DataTypes::ReplyKeyboardMarkup,
-          Telegrammer::DataTypes::ReplyKeyboardHide,
-          Telegrammer::DataTypes::ForceReply,
-        ]}
+      extra_params_validation = {
+        sticker: { required: true, class: [File, String] }
       }
 
-      response = api_request("sendSticker", params, params_validation)
-
-      Telegrammer::DataTypes::Message.new(response.result)
+      send_something(:sticker, params, extra_params_validation)
     end
 
     # Sends a video file to a user or group chat.
@@ -322,20 +277,11 @@ module Telegrammer
     # @see #send_document
     # @return [Telegrammer::DataTypes::Message] Message object sent to the user or group chat
     def send_video(params)
-      params_validation = {
-        chat_id: { required: true, class: [Fixnum] },
-        video: { required: true, class: [File, String] },
-        reply_to_message_id: { required: false, class: [String] },
-        reply_markup: { required: false, class: [
-          Telegrammer::DataTypes::ReplyKeyboardMarkup,
-          Telegrammer::DataTypes::ReplyKeyboardHide,
-          Telegrammer::DataTypes::ForceReply,
-        ]}
+      extra_params_validation = {
+        video: { required: true, class: [File, String] }
       }
 
-      response = api_request("sendVideo", params, params_validation)
-
-      Telegrammer::DataTypes::Message.new(response.result)
+      send_something(:video, params, extra_params_validation)
     end
 
     # Sends point on the map to a user or group chat.
@@ -356,21 +302,12 @@ module Telegrammer
     #
     # @return [Telegrammer::DataTypes::Message] Message object sent to the user or group chat
     def send_location(params)
-      params_validation = {
-        chat_id: { required: true, class: [Fixnum] },
+      extra_params_validation = {
         latitude: { required: true, class: [Float] },
-        longitude: { required: true, class: [Float] },
-        reply_to_message_id: { required: false, class: [String] },
-        reply_markup: { required: false, class: [
-          Telegrammer::DataTypes::ReplyKeyboardMarkup,
-          Telegrammer::DataTypes::ReplyKeyboardHide,
-          Telegrammer::DataTypes::ForceReply,
-        ]}
+        longitude: { required: true, class: [Float] }
       }
 
-      response = api_request("sendLocation", params, params_validation)
-
-      Telegrammer::DataTypes::Message.new(response.result)
+      send_something(:location, params, extra_params_validation)
     end
 
     # Sends a status action to a user or group chat.
@@ -469,6 +406,22 @@ module Telegrammer
       )
 
       ApiResponse.new(response)
+    end
+
+    def send_something(object_kind, params, extra_params_validation = {})
+      params_validation = {
+        chat_id: { required: true, class: [Fixnum] },
+        reply_to_message_id: { required: false, class: [String] },
+        reply_markup: { required: false, class: [
+          Telegrammer::DataTypes::ReplyKeyboardMarkup,
+          Telegrammer::DataTypes::ReplyKeyboardHide,
+          Telegrammer::DataTypes::ForceReply,
+        ]}
+      }
+
+      response = api_request("send#{object_kind.to_s.capitalize}", params, extra_params_validation.merge(params_validation))
+
+      Telegrammer::DataTypes::Message.new(response.result)
     end
   end
 end
