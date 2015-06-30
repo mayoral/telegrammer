@@ -1,3 +1,8 @@
+v0.2.0
+======
+
+* Simplified internals for send operations to reuse as much as possible.
+
 v0.1.0
 ======
 
