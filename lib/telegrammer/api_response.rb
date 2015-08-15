@@ -5,8 +5,8 @@ module Telegrammer
     attr_reader :success
 
     def initialize(response)
-      if response.code < 500
-        @body = response.response_body
+      if response.status < 500
+        @body = response.body
 
         data = MultiJson.load(@body)
         @success = data["ok"]
@@ -17,7 +17,7 @@ module Telegrammer
           raise Telegrammer::Errors::BadRequestError.new(data["error_code"], data["description"])
         end
       else
-        raise Telegrammer::Errors::ServiceUnavailableError.new(response.code)
+        raise Telegrammer::Errors::ServiceUnavailableError.new(response.status)
       end
     end
 

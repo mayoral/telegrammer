@@ -18,6 +18,7 @@ module Telegrammer
       @api_token = api_token
       @offset = 0
       @timeout = 60
+      @connection = HTTPClient.new
 
       @me = get_me
     end
@@ -39,7 +40,7 @@ module Telegrammer
     # @raise [Telegrammer::Errors::ServiceUnavailableError] if Telegram servers are down
     def get_updates(&block)
       loop do
-        response = api_request("getUpdates", {offset: @offset, timeout: @timeout}, nil)
+        response = api_request("getUpdates", {offset: @offset, timeout: @timeout}, nil, true)
 
         response.result.each do |raw_update|
           update = Telegrammer::DataTypes::Update.new(raw_update)
@@ -396,10 +397,10 @@ module Telegrammer
         end
       end
 
-      response = Typhoeus.post(
+      response = @connection.post(
         "#{API_ENDPOINT}/#{api_uri}",
-        body: validated_params,
-        headers: {
+        validated_params,
+        {
           "User-Agent" => "Telegrammer/#{Telegrammer::VERSION}",
           "Accept" => "application/json"
         }

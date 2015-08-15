@@ -1,4 +1,4 @@
-require 'typhoeus'
+require 'httpclient'
 require 'virtus'
 require 'multi_json'
 
