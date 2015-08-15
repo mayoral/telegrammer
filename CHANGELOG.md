@@ -1,3 +1,8 @@
+v0.3.0
+======
+
+* Using HTTPClient to get support for persistent connections (like in get_updates).
+
 v0.2.0
 ======
 
