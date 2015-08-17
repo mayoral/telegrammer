@@ -1,3 +1,8 @@
+v0.3.1
+======
+
+* Fixed bug in get_updates (an extra parameter used in the development of the HTTPClient migration).
+
 v0.3.0
 ======
 
