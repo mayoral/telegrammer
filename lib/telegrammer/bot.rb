@@ -40,7 +40,7 @@ module Telegrammer
     # @raise [Telegrammer::Errors::ServiceUnavailableError] if Telegram servers are down
     def get_updates(&block)
       loop do
-        response = api_request("getUpdates", {offset: @offset, timeout: @timeout}, nil, true)
+        response = api_request("getUpdates", {offset: @offset, timeout: @timeout}, nil)
 
         response.result.each do |raw_update|
           update = Telegrammer::DataTypes::Update.new(raw_update)
