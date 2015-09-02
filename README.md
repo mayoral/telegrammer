@@ -1,6 +1,7 @@
 [![Gem Version](https://badge.fury.io/rb/telegrammer.svg)](http://badge.fury.io/rb/telegrammer)
 [![Code Climate](https://codeclimate.com/github/mayoral/telegrammer/badges/gpa.svg)](https://codeclimate.com/github/mayoral/telegrammer)
 [![Inline docs](http://inch-ci.org/github/mayoral/telegrammer.svg?branch=master)](http://inch-ci.org/github/mayoral/telegrammer)
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/mayoral/telegrammer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 # Telegrammer
 
