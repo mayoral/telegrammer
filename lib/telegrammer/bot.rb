@@ -38,9 +38,9 @@ module Telegrammer
     #
     # @raise [Telegrammer::Errors::BadRequestError] if something goes wrong in the Telegram API servers with the params received by the operation
     # @raise [Telegrammer::Errors::ServiceUnavailableError] if Telegram servers are down
-    def get_updates(&block)
+    def get_updates(&_block)
       loop do
-        response = api_request("getUpdates", {offset: @offset, timeout: @timeout}, nil)
+        response = api_request('getUpdates', { offset: @offset, timeout: @timeout }, nil)
 
         response.result.each do |raw_update|
           update = Telegrammer::DataTypes::Update.new(raw_update)
@@ -69,7 +69,7 @@ module Telegrammer
     # @see https://github.com/mayoral/telegrammer/wiki/Using-webhooks
     # @return [Telegrammer::ApiResponse] Response from the API.
     def set_webhook(url)
-      api_request("setWebhook", {url: url}, nil)
+      api_request('setWebhook', { url: url }, nil)
     end
 
     # Returns basic information about the bot in form of a User object. Used for testing your bot's auth token.
@@ -83,7 +83,7 @@ module Telegrammer
     #
     # @return [Telegrammer::DataTypes::User] User object with info about the bot
     def get_me
-      response = api_request("getMe", nil, nil)
+      response = api_request('getMe', nil, nil)
 
       Telegrammer::DataTypes::User.new(response.result)
     end
@@ -145,7 +145,7 @@ module Telegrammer
         message_id: { required: true, class: [Fixnum] }
       }
 
-      response = api_request("forwardMessage", params, params_validation)
+      response = api_request('forwardMessage', params, params_validation)
 
       Telegrammer::DataTypes::Message.new(response.result)
     end
@@ -333,7 +333,7 @@ module Telegrammer
         action: { required: true, class: [String] }
       }
 
-      api_request("sendChatAction", params, params_validation)
+      api_request('sendChatAction', params, params_validation)
     end
 
     # Get a list of profile pictures for a user.
@@ -358,7 +358,7 @@ module Telegrammer
         limit: { required: false, class: [Fixnum] }
       }
 
-      response = api_request("getUserProfilePhotos", params, params_validation)
+      response = api_request('getUserProfilePhotos', params, params_validation)
 
       Telegrammer::DataTypes::UserProfilePhotos.new(response.result)
     end
@@ -372,19 +372,19 @@ module Telegrammer
         validated_params = params
       else
         # Delete params not accepted by the API
-        validated_params = params.delete_if {|k, v| !params_validation.has_key?(k) }
+        validated_params = params.delete_if { |k, _v| !params_validation.key?(k) }
 
         # Check all required params by the action are present
-        params_validation.each do |key, value|
-          if params_validation[key][:required] && !params.has_key?(key)
-            raise Telegrammer::Errors::MissingParamsError.new(key, action)
+        params_validation.each do |key, _value|
+          if params_validation[key][:required] && !params.key?(key)
+            fail Telegrammer::Errors::MissingParamsError.new(key, action)
           end
         end
 
         params.each do |key, value|
           # Check param types
-          if !params_validation[key][:class].include?(value.class)
-            raise Telegrammer::Errors::InvalidParamTypeError.new(key, value.class, params_validation[key][:class])
+          unless params_validation[key][:class].include?(value.class)
+            fail Telegrammer::Errors::InvalidParamTypeError.new(key, value.class, params_validation[key][:class])
           end
 
           # Prepare params for sending in Typhoeus post body request
@@ -400,10 +400,8 @@ module Telegrammer
       response = @connection.post(
         "#{API_ENDPOINT}/#{api_uri}",
         validated_params,
-        {
-          "User-Agent" => "Telegrammer/#{Telegrammer::VERSION}",
-          "Accept" => "application/json"
-        }
+        'User-Agent' => "Telegrammer/#{Telegrammer::VERSION}",
+        'Accept' => 'application/json'
       )
 
       ApiResponse.new(response)
@@ -416,8 +414,8 @@ module Telegrammer
         reply_markup: { required: false, class: [
           Telegrammer::DataTypes::ReplyKeyboardMarkup,
           Telegrammer::DataTypes::ReplyKeyboardHide,
-          Telegrammer::DataTypes::ForceReply,
-        ]}
+          Telegrammer::DataTypes::ForceReply
+        ] }
       }
 
       response = api_request("send#{object_kind.to_s.capitalize}", params, extra_params_validation.merge(params_validation))

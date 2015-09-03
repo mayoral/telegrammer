@@ -9,15 +9,15 @@ module Telegrammer
         @body = response.body
 
         data = MultiJson.load(@body)
-        @success = data["ok"]
+        @success = data['ok']
 
         if @success
-          @result = data["result"]
+          @result = data['result']
         else
-          raise Telegrammer::Errors::BadRequestError.new(data["error_code"], data["description"])
+          fail Telegrammer::Errors::BadRequestError, data['error_code'], data['description']
         end
       else
-        raise Telegrammer::Errors::ServiceUnavailableError.new(response.status)
+        fail Telegrammer::Errors::ServiceUnavailableError, response.status
       end
     end
 
