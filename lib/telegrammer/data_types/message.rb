@@ -15,6 +15,8 @@ module Telegrammer
     # @attr [Telegrammer::DataTypes::PhotoSize] photo Optional. Message is a photo, available sizes of the photo
     # @attr [Telegrammer::DataTypes::Sticker] sticker Optional. Message is a sticker, information about the sticker
     # @attr [Telegrammer::DataTypes::Video] video Optional. Message is a video, information about the video
+    # @attr [Telegrammer::DataTypes::Voice] voice Optional. Message is a voice message, information about the file
+    # @attr [String] caption Optional. Caption for the photo or video
     # @attr [Telegrammer::DataTypes::Contact] contact Optional. Message is a shared contact, information about the contact
     # @attr [Telegrammer::DataTypes::Location] location Optional. Message is a shared location, information about the location
     # @attr [Telegrammer::DataTypes::User] new_chat_participant Optional. A new member was added to the group, information about them (this member may be bot itself)
@@ -39,6 +41,7 @@ module Telegrammer
       attribute :photo, Array[PhotoSize]
       attribute :sticker, Sticker
       attribute :video, Video
+      attribute :voice, Voice
       attribute :contact, Contact
       attribute :location, Location
       attribute :new_chat_participant, User

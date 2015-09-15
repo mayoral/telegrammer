@@ -93,6 +93,7 @@ module Telegrammer
     # @param [Hash] params hash of paramers to send to the sendMessage API operation.
     # @option params [Integer] :chat_id Required. Unique identifier for the message recipient — User or GroupChat id.
     # @option params [String] :text Required. Text of the message to be sent
+    # @option params [String] :parse_mode Optional. Send Markdown, if you want Telegram apps to show bold, italic and inline URLs in your bot's message.
     # @option params [Boolean] :disable_web_page_preview Optional. Disables link previews for links in this message
     # @option params [Integer] :reply_to_message_id Optional. If the message is a reply, ID of the original message
     # @option params [Telegrammer::DataTypes::ReplyKeyboardMarkup,Telegrammer::DataTypes::ReplyKeyboardHide,Telegrammer::DataTypes::ForceReply] :reply_markup Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.
@@ -112,6 +113,7 @@ module Telegrammer
     def send_message(params)
       extra_params_validation = {
         text: { required: true, class: [String] },
+        parse_mode: { required: false, class: [String] },
         disable_web_page_preview: { required: false, class: [TrueClass, FalseClass] }
       }
 
@@ -154,8 +156,8 @@ module Telegrammer
     #
     # @param [Hash] params hash of paramers to send to the sendPhoto API operation.
     # @option params [Integer] :chat_id Required. Unique identifier for the message recipient — User or GroupChat id.
-    # @option params [File,String] :photo Required.
-    # @option params [String] :caption Optional.
+    # @option params [File,String] :photo Required. Photo to send. You can either pass a file_id as String to resend a photo that is already on the Telegram servers, or upload a new photo using multipart/form-data.
+    # @option params [String] :caption Optional. Photo caption (may also be used when resending photos by file_id).
     # @option params [Integer] :reply_to_message_id Optional. If the message is a reply, ID of the original message
     # @option params [Telegrammer::DataTypes::ReplyKeyboardMarkup,Telegrammer::DataTypes::ReplyKeyboardHide,Telegrammer::DataTypes::ForceReply] :reply_markup Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.
     #
@@ -171,7 +173,7 @@ module Telegrammer
     # @return [Telegrammer::DataTypes::Message] Message object sent to the user or group chat
     def send_photo(params)
       extra_params_validation = {
-        photo: { required: false, class: [File, String] },
+        photo: { required: true, class: [File, String] },
         caption: { required: false, class: [String] }
       }
 
@@ -185,6 +187,9 @@ module Telegrammer
     # @param [Hash] params hash of paramers to send to the sendAudio API operation.
     # @option params [Integer] :chat_id Required. Unique identifier for the message recipient — User or GroupChat id.
     # @option params [File,String] audio Required. Audio file to send. You can either pass a file_id as String to resend an audio that is already on the Telegram servers, or upload a new audio file using multipart/form-data
+    # @option params [Integer] duration Optional. Duration of the audio in seconds.
+    # @option params [String] performer Optional. Performer.
+    # @option params [String] title Optional. Track name.
     # @option params [Integer] :reply_to_message_id Optional. If the message is a reply, ID of the original message
     # @option params [Telegrammer::DataTypes::ReplyKeyboardMarkup,Telegrammer::DataTypes::ReplyKeyboardHide,Telegrammer::DataTypes::ForceReply] :reply_markup Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.
     #
@@ -200,11 +205,45 @@ module Telegrammer
     # @return [Telegrammer::DataTypes::Message] Message object sent to the user or group chat
     def send_audio(params)
       extra_params_validation = {
-        audio: { required: false, class: [File, String] }
+        audio: { required: true, class: [File, String] },
+        duration: { required: false, class: [Integer] },
+        performer: { required: false, class: [String] },
+        title: { required: false, class: [String] }
       }
 
       send_something(:audio, params, extra_params_validation)
     end
+
+    # Sends audio files file to a user or group chat that the users will see as a playable voice message.
+    #
+    # At this moment, Telegram only allows Ogg files encoded with the OPUS codec. If you need to send another file format, you must use #send_document.
+    #
+    # @param [Hash] params hash of paramers to send to the sendAudio API operation.
+    # @option params [Integer] :chat_id Required. Unique identifier for the message recipient — User or GroupChat id.
+    # @option params [File,String] voice Required. Audio file to send. You can either pass a file_id as String to resend an audio that is already on the Telegram servers, or upload a new audio file using multipart/form-data
+    # @option params [Integer] duration Optional. Duration of sent audio in seconds.
+    # @option params [Integer] :reply_to_message_id Optional. If the message is a reply, ID of the original message
+    # @option params [Telegrammer::DataTypes::ReplyKeyboardMarkup,Telegrammer::DataTypes::ReplyKeyboardHide,Telegrammer::DataTypes::ForceReply] :reply_markup Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.
+    #
+    # @example
+    #     bot = Telegrammer::Bot.new('[YOUR TELEGRAM TOKEN]')
+    #     voice_file = File.open("foo.ogg")
+    #     bot.send_voice(chat_id: 123456789, voice: audio_file)
+    #
+    # @raise [Telegrammer::Errors::BadRequestError] if something goes wrong in the Telegram API servers with the params received by the operation
+    # @raise [Telegrammer::Errors::ServiceUnavailableError] if Telegram servers are down
+    #
+    # @see #send_document
+    # @return [Telegrammer::DataTypes::Message] Message object sent to the user or group chat
+    def send_voice(params)
+      extra_params_validation = {
+        voice: { required: true, class: [File, String] },
+        duration: { required: false, class: [Integer] }
+      }
+
+      send_something(:audio, params, extra_params_validation)
+    end
+
 
     # Sends a document to a user or group chat.
     #
@@ -225,7 +264,7 @@ module Telegrammer
     # @return [Telegrammer::DataTypes::Message] Message object sent to the user or group chat
     def send_document(params)
       extra_params_validation = {
-        document: { required: false, class: [File, String] }
+        document: { required: true, class: [File, String] }
       }
 
       send_something(:document, params, extra_params_validation)
@@ -263,7 +302,9 @@ module Telegrammer
     #
     # @param [Hash] params hash of paramers to send to the sendVideo API operation.
     # @option params [Integer] :chat_id Required. Unique identifier for the message recipient — User or GroupChat id.
-    # @option params [File,String] :video Video to send. You can either pass a file_id as String to resend a video that is already on the Telegram servers, or upload a new video file.
+    # @option params [File,String] :video Required. Video to send. You can either pass a file_id as String to resend a video that is already on the Telegram servers, or upload a new video file.
+    # @option params [Integer] :duration Optional. Duration of sent video in seconds.
+    # @option params [String] :caption Optional. Video caption (may also be used when resending videos by file_id).
     # @option params [Integer] :reply_to_message_id Optional. If the message is a reply, ID of the original message
     # @option params [Telegrammer::DataTypes::ReplyKeyboardMarkup,Telegrammer::DataTypes::ReplyKeyboardHide,Telegrammer::DataTypes::ForceReply] :reply_markup Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.
     #
@@ -279,7 +320,9 @@ module Telegrammer
     # @return [Telegrammer::DataTypes::Message] Message object sent to the user or group chat
     def send_video(params)
       extra_params_validation = {
-        video: { required: true, class: [File, String] }
+        video: { required: true, class: [File, String] },
+        duration: { required: false, class: [Integer] },
+        caption: { required: false, class: [String] }
       }
 
       send_something(:video, params, extra_params_validation)
