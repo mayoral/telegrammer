@@ -1,3 +1,8 @@
+v0.4.0
+======
+
+* Added some methods and data types to be up to date with API version 2015-09-07 (https://core.telegram.org/bots/api-changelog#september-7-2015).
+
 v0.3.1
 ======
 
