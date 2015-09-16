@@ -44,7 +44,7 @@ module Telegrammer
       	if opts[:fail_silently]
       		@fail_silently = true
       	end
-        response = api_request('getUpdates', { offset: @offset, timeout: @timeout }, nil)
+        response = api_request('getUpdates', { offset: opts[:offset] || @offset, timeout: opts[:timeout] || @timeout }, nil)
 
         response.result.each do |raw_update|
           update = Telegrammer::DataTypes::Update.new(raw_update)
