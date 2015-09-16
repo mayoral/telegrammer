@@ -1,3 +1,8 @@
+v0.4.1
+======
+
+* Added voice datatype to the required files by the gem.
+
 v0.4.0
 ======
 
