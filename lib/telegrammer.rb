@@ -56,5 +56,12 @@ module Telegrammer
         super("Telegram API Service unavailable (HTTP error code #{status_code})")
       end
     end
+
+    # Error returned when HTTPClient raise a timeout (?)
+    class TimeoutError < StandardError
+      def initialize(message)
+        super("Timeout reached. Message: #{message}")
+      end
+    end
   end
 end

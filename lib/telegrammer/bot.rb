@@ -18,6 +18,7 @@ module Telegrammer
       @api_token = api_token
       @offset = 0
       @timeout = 60
+      @fail_silently = false
       @connection = HTTPClient.new
 
       @me = get_me
@@ -38,8 +39,11 @@ module Telegrammer
     #
     # @raise [Telegrammer::Errors::BadRequestError] if something goes wrong in the Telegram API servers with the params received by the operation
     # @raise [Telegrammer::Errors::ServiceUnavailableError] if Telegram servers are down
-    def get_updates(&_block)
+    def get_updates(opts={}, &_block)
       loop do
+      	if opts[:fail_silently]
+      		@fail_silently = true
+      	end
         response = api_request('getUpdates', { offset: @offset, timeout: @timeout }, nil)
 
         response.result.each do |raw_update|
@@ -440,14 +444,20 @@ module Telegrammer
         end
       end
 
-      response = @connection.post(
-        "#{API_ENDPOINT}/#{api_uri}",
-        validated_params,
-        'User-Agent' => "Telegrammer/#{Telegrammer::VERSION}",
-        'Accept' => 'application/json'
-      )
+      begin
+      	response = @connection.post(
+          "#{API_ENDPOINT}/#{api_uri}",
+          validated_params,
+          'User-Agent' => "Telegrammer/#{Telegrammer::VERSION}",
+          'Accept' => 'application/json'
+        )
 
-      ApiResponse.new(response)
+        ApiResponse.new(response,@fail_silently)
+      rescue HTTPClient::ReceiveTimeoutError => e
+      	if !@fail_silently
+          fail Telegrammer::Errors::TimeoutError, e.to_s
+        end
+      end
     end
 
     def send_something(object_kind, params, extra_params_validation = {})
