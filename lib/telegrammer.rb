@@ -12,6 +12,7 @@ require 'telegrammer/data_types/photo_size'
 require 'telegrammer/data_types/user'
 require 'telegrammer/data_types/sticker'
 require 'telegrammer/data_types/video'
+require 'telegrammer/data_types/voice'
 
 require 'telegrammer/data_types/document'
 require 'telegrammer/data_types/force_reply'
