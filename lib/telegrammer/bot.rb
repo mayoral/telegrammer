@@ -18,12 +18,18 @@ module Telegrammer
       @api_token = api_token
       @offset = 0
       @timeout = 60
+      @fail_silently = false
       @connection = HTTPClient.new
 
       @me = get_me
     end
 
     # Get incoming updates using long polling
+    #
+    # @param [Hash] opts Options when getting updates
+    # @option params [Integer] :fail_silently Optional. Ignore every Connection Error. Default: false
+    # @option params [Integer] :offset Optional. Sequential number of the first photo to be returned. By default, all photos are returned.
+    # @option params [Integer] :timeout Optional. Timeout in minutes. 0 for short polling, Default: 60.
     #
     # @example
     #     bot = Telegrammer::Bot.new('[YOUR TELEGRAM TOKEN]')
@@ -36,11 +42,23 @@ module Telegrammer
     #       # To learn more about commands, see https://core.telegram.org/bots#commands
     #     end
     #
+    #     bot.get_updates({fail_silently:true, timeout:20}) do |message|
+    #       puts "In chat #{message.chat.id}, @#{message.from.username} said: #{message.text}"
+    #       bot.send_message(chat_id: message.chat.id, text: "You said: #{message.text}")
+    #
+    #       # Here you can also process message text to detect user commands
+    #       # To learn more about commands, see https://core.telegram.org/bots#commands
+    #     end
+    #
     # @raise [Telegrammer::Errors::BadRequestError] if something goes wrong in the Telegram API servers with the params received by the operation
     # @raise [Telegrammer::Errors::ServiceUnavailableError] if Telegram servers are down
-    def get_updates(&_block)
+    # @raise [Telegrammer::Errors::TimeoutError] if HTTPClient connection goes timeout
+    def get_updates(opts={}, &_block)
       loop do
-        response = api_request('getUpdates', { offset: @offset, timeout: @timeout }, nil)
+      	if opts[:fail_silently]
+      		@fail_silently = true
+      	end
+        response = api_request('getUpdates', { offset: opts[:offset] || @offset, timeout: opts[:timeout] || @timeout }, nil)
 
         response.result.each do |raw_update|
           update = Telegrammer::DataTypes::Update.new(raw_update)
@@ -440,14 +458,20 @@ module Telegrammer
         end
       end
 
-      response = @connection.post(
-        "#{API_ENDPOINT}/#{api_uri}",
-        validated_params,
-        'User-Agent' => "Telegrammer/#{Telegrammer::VERSION}",
-        'Accept' => 'application/json'
-      )
+      begin
+      	response = @connection.post(
+          "#{API_ENDPOINT}/#{api_uri}",
+          validated_params,
+          'User-Agent' => "Telegrammer/#{Telegrammer::VERSION}",
+          'Accept' => 'application/json'
+        )
 
-      ApiResponse.new(response)
+        ApiResponse.new(response,@fail_silently)
+      rescue HTTPClient::ReceiveTimeoutError => e
+      	if !@fail_silently
+          fail Telegrammer::Errors::TimeoutError, e.to_s
+        end
+      end
     end
 
     def send_something(object_kind, params, extra_params_validation = {})
