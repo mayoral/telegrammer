@@ -1,3 +1,8 @@
+v0.5.0
+======
+
+* Option to fail silently on get_updates method. Thanks to TheZ3ro!
+
 v0.4.1
 ======
 
