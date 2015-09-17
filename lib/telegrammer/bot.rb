@@ -26,6 +26,11 @@ module Telegrammer
 
     # Get incoming updates using long polling
     #
+    # @param [Hash] opts Options when getting updates
+    # @option params [Integer] :fail_silently Optional. Ignore every Connection Error. Default: false
+    # @option params [Integer] :offset Optional. Sequential number of the first photo to be returned. By default, all photos are returned.
+    # @option params [Integer] :timeout Optional. Timeout in minutes. 0 for short polling, Default: 60.
+    #
     # @example
     #     bot = Telegrammer::Bot.new('[YOUR TELEGRAM TOKEN]')
     #
@@ -37,8 +42,17 @@ module Telegrammer
     #       # To learn more about commands, see https://core.telegram.org/bots#commands
     #     end
     #
+    #     bot.get_updates({fail_silently:true, timeout:20}) do |message|
+    #       puts "In chat #{message.chat.id}, @#{message.from.username} said: #{message.text}"
+    #       bot.send_message(chat_id: message.chat.id, text: "You said: #{message.text}")
+    #
+    #       # Here you can also process message text to detect user commands
+    #       # To learn more about commands, see https://core.telegram.org/bots#commands
+    #     end
+    #
     # @raise [Telegrammer::Errors::BadRequestError] if something goes wrong in the Telegram API servers with the params received by the operation
     # @raise [Telegrammer::Errors::ServiceUnavailableError] if Telegram servers are down
+    # @raise [Telegrammer::Errors::TimeoutError] if HTTPClient connection goes timeout
     def get_updates(opts={}, &_block)
       loop do
       	if opts[:fail_silently]
