@@ -1,3 +1,8 @@
+v0.5.1
+======
+
+* Fixed an error raising some exceptions (reported by @nkaviani in #13)
+
 v0.5.0
 ======
 
