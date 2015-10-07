@@ -15,12 +15,12 @@ module Telegrammer
           @result = data['result']
         else
           if !fail_silently
-            fail Telegrammer::Errors::BadRequestError, data['error_code'], data['description']
+            fail Telegrammer::Errors::BadRequestError.new(data['error_code'], data['description'])
           end
         end
       else
         if !fail_silently
-          fail Telegrammer::Errors::ServiceUnavailableError, response.status
+          fail Telegrammer::Errors::ServiceUnavailableError.new(response.status)
         end
       end
     end
