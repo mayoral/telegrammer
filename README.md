@@ -5,7 +5,7 @@
 
 # Telegrammer
 
-Ruby client for the [Telegram's Bot API](https://core.telegram.org/bots/api).
+Ruby client for the [Telegram's Bot API](https://core.telegram.org/bots/api). Compliant with the [version 2015-10-08 of the API](https://core.telegram.org/bots/api#recent-changes).
 
 ## Installation
 
