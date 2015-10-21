@@ -55,9 +55,10 @@ module Telegrammer
     # @raise [Telegrammer::Errors::TimeoutError] if HTTPClient connection goes timeout
     def get_updates(opts={}, &_block)
       loop do
-      	if opts[:fail_silently]
-      		@fail_silently = true
-      	end
+        if opts[:fail_silently]
+          @fail_silently = true
+        end
+
         response = api_request('getUpdates', { offset: opts[:offset] || @offset, timeout: opts[:timeout] || @timeout }, nil)
 
         response.result.each do |raw_update|
@@ -399,7 +400,7 @@ module Telegrammer
 
     # Get a list of profile pictures for a user.
     #
-    # @param [Hash] params hash of paramers to send to the sendChatAction API operation.
+    # @param [Hash] params hash of paramers to send to the getUserProfilePhotos API operation.
     # @option params [Integer] :user_id Required. Unique identifier of the target user.
     # @option params [Integer] :offset Optional. Sequential number of the first photo to be returned. By default, all photos are returned.
     # @option params [Integer] :limit Optional. Limits the number of photos to be retrieved. Values between 1—100 are accepted. Defaults to 100.
@@ -422,6 +423,32 @@ module Telegrammer
       response = api_request('getUserProfilePhotos', params, params_validation)
 
       Telegrammer::DataTypes::UserProfilePhotos.new(response.result)
+    end
+
+    # Get a list of profile pictures for a user.
+    #
+    # @param [Hash] params hash of paramers to send to the sendChatAction API operation.
+    # @option params [Integer] :user_id Required. Unique identifier of the target user.
+    # @option params [Integer] :offset Optional. Sequential number of the first photo to be returned. By default, all photos are returned.
+    # @option params [Integer] :limit Optional. Limits the number of photos to be retrieved. Values between 1—100 are accepted. Defaults to 100.
+    #
+    # @example
+    #     bot = Telegrammer::Bot.new('[YOUR TELEGRAM TOKEN]')
+    #     bot.get_file(file_id: 123456789)
+    #
+    # @raise [Telegrammer::Errors::BadRequestError]
+    # @raise [Telegrammer::Errors::ServiceUnavailableError] if Telegram servers are down
+    #
+    # @return [String] URL of the file (valid for one hour) or BadRequestError if the file_id is wrong
+    def get_file(params)
+      params_validation = {
+        file_id: { required: true, class: [String] }
+      }
+
+      response = response = api_request("getFile", params, params_validation)
+      file_object = Telegrammer::DataTypes::File.new(response.result)
+
+      "https://api.telegram.org/file/bot#{@api_token}/#{file_object.file_path}"
     end
 
     private
@@ -459,7 +486,7 @@ module Telegrammer
       end
 
       begin
-      	response = @connection.post(
+        response = @connection.post(
           "#{API_ENDPOINT}/#{api_uri}",
           validated_params,
           'User-Agent' => "Telegrammer/#{Telegrammer::VERSION}",
@@ -468,7 +495,7 @@ module Telegrammer
 
         ApiResponse.new(response,@fail_silently)
       rescue HTTPClient::ReceiveTimeoutError => e
-      	if !@fail_silently
+        if !@fail_silently
           fail Telegrammer::Errors::TimeoutError, e.to_s
         end
       end
