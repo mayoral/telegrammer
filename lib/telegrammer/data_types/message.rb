@@ -5,7 +5,7 @@ module Telegrammer
     # @attr [Integer] message_id Unique message identifier
     # @attr [Telegrammer::DataTypes::User] from Sender
     # @attr [DateTime] date Date the message was sent
-    # @attr [Telegrammer::DataTypes::Channel] chat Conversation the message belongs to — user in case of a private message, GroupChat in case of a group
+    # @attr [Telegrammer::DataTypes::Chat] chat Conversation the message belongs to
     # @attr [Telegrammer::DataTypes::User] forward_from Optional. For forwarded messages, sender of the original message
     # @attr [DateTime] forward_date Optional. For forwarded messages, date the original message was sent
     # @attr [Telegrammer::DataTypes::Message] reply_to_message Optional. For replies, the original message. Note that the Message object in this field will not contain further reply_to_message fields even if it itself is a reply.
@@ -31,7 +31,7 @@ module Telegrammer
       attribute :message_id, Integer
       attribute :from, User
       attribute :date, DateTime
-      attribute :chat, Channel
+      attribute :chat, Chat
       attribute :forward_from, User
       attribute :forward_date, DateTime
       attribute :reply_to_message, Message
