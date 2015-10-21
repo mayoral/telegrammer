@@ -1,3 +1,9 @@
+v0.6.0
+======
+
+* New File & Chat datatypes.
+* Implemented get_file operation.
+
 v0.5.1
 ======
 
