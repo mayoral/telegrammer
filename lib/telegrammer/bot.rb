@@ -425,12 +425,10 @@ module Telegrammer
       Telegrammer::DataTypes::UserProfilePhotos.new(response.result)
     end
 
-    # Get a list of profile pictures for a user.
+    # Get basic info about a file and prepare it for downloading.
     #
-    # @param [Hash] params hash of paramers to send to the sendChatAction API operation.
-    # @option params [Integer] :user_id Required. Unique identifier of the target user.
-    # @option params [Integer] :offset Optional. Sequential number of the first photo to be returned. By default, all photos are returned.
-    # @option params [Integer] :limit Optional. Limits the number of photos to be retrieved. Values between 1—100 are accepted. Defaults to 100.
+    # @param [Hash] params hash of paramers to send to the getFile API operation.
+    # @option params [String] :file_id Required. File identifier to get info about.
     #
     # @example
     #     bot = Telegrammer::Bot.new('[YOUR TELEGRAM TOKEN]')
