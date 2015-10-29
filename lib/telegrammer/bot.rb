@@ -448,7 +448,7 @@ module Telegrammer
       response = response = api_request("getFile", params, params_validation)
       file_object = Telegrammer::DataTypes::File.new(response.result)
 
-      "https://api.telegram.org/file/bot#{@api_token}/#{file_object.file_path}"
+      "#{API_ENDPOINT}/file/bot#{@api_token}/#{file_object.file_path}"
     end
 
     private
