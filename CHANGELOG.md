@@ -1,8 +1,14 @@
+v0.6.1
+======
+
+* Updated operations that are using chat_id to also support "@channel" format (reported by @rkpasia in #15).
+
 v0.6.0
 ======
 
 * New File & Chat datatypes.
 * Implemented get_file operation.
+* Gem is now up to date with API version 2015-10-08 (https://core.telegram.org/bots/api-changelog#october-8-2015).
 
 v0.5.1
 ======
