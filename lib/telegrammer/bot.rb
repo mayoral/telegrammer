@@ -110,7 +110,7 @@ module Telegrammer
     # Send text messages to a user or group chat.
     #
     # @param [Hash] params hash of paramers to send to the sendMessage API operation.
-    # @option params [Integer] :chat_id Required. Unique identifier for the message recipient — User or GroupChat id.
+    # @option params [Integer,String] :chat_id Required. Unique identifier for the target chat or username of the target channel (in the format @channelusername).
     # @option params [String] :text Required. Text of the message to be sent
     # @option params [String] :parse_mode Optional. Send Markdown, if you want Telegram apps to show bold, italic and inline URLs in your bot's message.
     # @option params [Boolean] :disable_web_page_preview Optional. Disables link previews for links in this message
@@ -142,8 +142,8 @@ module Telegrammer
     # Forward message to a user or group chat.
     #
     # @param [Hash] params hash of paramers to send to the forwardMessage API operation.
-    # @option params [Integer] :chat_id Required. Unique identifier for the message recipient — User or GroupChat id.
-    # @option params [Integer] :from_chat_id Required. Unique identifier for the chat where the original message was sent.
+    # @option params [Integer,String] :chat_id Required. Unique identifier for the target chat or username of the target channel (in the format @channelusername).
+    # @option params [Integer,String] :from_chat_id Required. Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername).
     # @option params [Integer] :message_id Required. Message id to be forwarded.
     #
     # @example
@@ -174,7 +174,7 @@ module Telegrammer
     # Sends a photo to a user or group chat.
     #
     # @param [Hash] params hash of paramers to send to the sendPhoto API operation.
-    # @option params [Integer] :chat_id Required. Unique identifier for the message recipient — User or GroupChat id.
+    # @option params [Integer,String] :chat_id Required. Unique identifier for the target chat or username of the target channel (in the format @channelusername).
     # @option params [File,String] :photo Required. Photo to send. You can either pass a file_id as String to resend a photo that is already on the Telegram servers, or upload a new photo using multipart/form-data.
     # @option params [String] :caption Optional. Photo caption (may also be used when resending photos by file_id).
     # @option params [Integer] :reply_to_message_id Optional. If the message is a reply, ID of the original message
@@ -204,7 +204,7 @@ module Telegrammer
     # At this moment, Telegram only allows Ogg files encoded with the OPUS codec. If you need to send another file format, you must use #send_document.
     #
     # @param [Hash] params hash of paramers to send to the sendAudio API operation.
-    # @option params [Integer] :chat_id Required. Unique identifier for the message recipient — User or GroupChat id.
+    # @option params [Integer,String] :chat_id Required. Unique identifier for the target chat or username of the target channel (in the format @channelusername).
     # @option params [File,String] audio Required. Audio file to send. You can either pass a file_id as String to resend an audio that is already on the Telegram servers, or upload a new audio file using multipart/form-data
     # @option params [Integer] duration Optional. Duration of the audio in seconds.
     # @option params [String] performer Optional. Performer.
@@ -238,7 +238,7 @@ module Telegrammer
     # At this moment, Telegram only allows Ogg files encoded with the OPUS codec. If you need to send another file format, you must use #send_document.
     #
     # @param [Hash] params hash of paramers to send to the sendAudio API operation.
-    # @option params [Integer] :chat_id Required. Unique identifier for the message recipient — User or GroupChat id.
+    # @option params [Integer,String] :chat_id Required. Unique identifier for the target chat or username of the target channel (in the format @channelusername).
     # @option params [File,String] voice Required. Audio file to send. You can either pass a file_id as String to resend an audio that is already on the Telegram servers, or upload a new audio file using multipart/form-data
     # @option params [Integer] duration Optional. Duration of sent audio in seconds.
     # @option params [Integer] :reply_to_message_id Optional. If the message is a reply, ID of the original message
@@ -267,7 +267,7 @@ module Telegrammer
     # Sends a document to a user or group chat.
     #
     # @param [Hash] params hash of paramers to send to the sendDocument API operation.
-    # @option params [Integer] :chat_id Required. Unique identifier for the message recipient — User or GroupChat id.
+    # @option params [Integer,String] :chat_id Required. Unique identifier for the target chat or username of the target channel (in the format @channelusername).
     # @option params [File,String] :document Required. File to send. You can either pass a file_id as String to resend a file that is already on the Telegram servers, or upload a new file using multipart/form-data.
     # @option params [Integer] :reply_to_message_id Optional. If the message is a reply, ID of the original message
     # @option params [Telegrammer::DataTypes::ReplyKeyboardMarkup,Telegrammer::DataTypes::ReplyKeyboardHide,Telegrammer::DataTypes::ForceReply] :reply_markup Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.
@@ -292,7 +292,7 @@ module Telegrammer
     # Send WebP images as stickers.
     #
     # @param [Hash] params hash of paramers to send to the sendSticker API operation.
-    # @option params [Integer] :chat_id Required. Unique identifier for the message recipient — User or GroupChat id.
+    # @option params [Integer,String] :chat_id Required. Unique identifier for the target chat or username of the target channel (in the format @channelusername).
     # @option params [File,String] :sticker Required. Sticker to send. You can either pass a file_id as String to resend a file that is already on the Telegram servers, or upload a new file using multipart/form-data.
     # @option params [Integer] :reply_to_message_id Optional. If the message is a reply, ID of the original message
     # @option params [Telegrammer::DataTypes::ReplyKeyboardMarkup,Telegrammer::DataTypes::ReplyKeyboardHide,Telegrammer::DataTypes::ForceReply] :reply_markup Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.
@@ -320,7 +320,7 @@ module Telegrammer
     # At this moment, Telegram only support mp4 videos. If you need to send other formats you must use #send_document.
     #
     # @param [Hash] params hash of paramers to send to the sendVideo API operation.
-    # @option params [Integer] :chat_id Required. Unique identifier for the message recipient — User or GroupChat id.
+    # @option params [Integer,String] :chat_id Required. Unique identifier for the target chat or username of the target channel (in the format @channelusername).
     # @option params [File,String] :video Required. Video to send. You can either pass a file_id as String to resend a video that is already on the Telegram servers, or upload a new video file.
     # @option params [Integer] :duration Optional. Duration of sent video in seconds.
     # @option params [String] :caption Optional. Video caption (may also be used when resending videos by file_id).
@@ -350,7 +350,7 @@ module Telegrammer
     # Sends point on the map to a user or group chat.
     #
     # @param [Hash] params hash of paramers to send to the sendAudio API operation.
-    # @option params [Integer] :chat_id Required. Unique identifier for the message recipient — User or GroupChat id.
+    # @option params [Integer,String] :chat_id Required. Unique identifier for the target chat or username of the target channel (in the format @channelusername).
     # @option params [Float] :latitude Required. Latitude of location.
     # @option params [Float] :longitude Required. Longitude of location.
     # @option params [Integer] :reply_to_message_id Optional. If the message is a reply, ID of the original message.
@@ -378,7 +378,7 @@ module Telegrammer
     # Used when you need to tell the user that something is happening on the bot's side. The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing status).
     #
     # @param [Hash] params hash of paramers to send to the sendChatAction API operation.
-    # @option params [Integer] :chat_id Required. Unique identifier for the message recipient — User or GroupChat id.
+    # @option params [Integer,String] :chat_id Required. Unique identifier for the target chat or username of the target channel (in the format @channelusername).
     # @option params [String] :action Required. Type of action to broadcast. Choose one, depending on what the user is about to receive: "typing" for text messages, "upload_photo" for photos, "record_video" or "upload_video" for videos, "record_audio" or "upload_audio" for audio files, "upload_document" for general files, "find_location" for location data.
     #
     # @example
@@ -391,7 +391,7 @@ module Telegrammer
     # @return [Telegrammer::ApiResponse] Response from the API.
     def send_chat_action(params)
       params_validation = {
-        chat_id: { required: true, class: [Fixnum] },
+        chat_id: { required: true, class: [Fixnum, String] },
         action: { required: true, class: [String] }
       }
 
@@ -501,7 +501,7 @@ module Telegrammer
 
     def send_something(object_kind, params, extra_params_validation = {})
       params_validation = {
-        chat_id: { required: true, class: [Fixnum] },
+        chat_id: { required: true, class: [Fixnum, String] },
         reply_to_message_id: { required: false, class: [String] },
         reply_markup: { required: false, class: [
           Telegrammer::DataTypes::ReplyKeyboardMarkup,
