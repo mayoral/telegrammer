@@ -1,7 +1,12 @@
+v0.6.2
+======
+
+* Fixed user profile photos array with a custom datatype. Thanks to noma4i!
+
 v0.6.1
 ======
 
-* Updated operations that are using chat_id to also support "@channel" format (reported by @rkpasia in #15).
+* Updated operations that are using chat_id to also support "@channel" format (reported by rkpasia in #15).
 
 v0.6.0
 ======
@@ -13,7 +18,7 @@ v0.6.0
 v0.5.1
 ======
 
-* Fixed an error raising some exceptions (reported by @nkaviani in #13)
+* Fixed an error raising some exceptions (reported by nkaviani in #13)
 
 v0.5.0
 ======
