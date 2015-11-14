@@ -4,6 +4,7 @@ require 'multi_json'
 
 require 'telegrammer/version'
 
+require 'telegrammer/data_types/photo_array'
 require 'telegrammer/data_types/base'
 require 'telegrammer/data_types/audio'
 require 'telegrammer/data_types/chat'
