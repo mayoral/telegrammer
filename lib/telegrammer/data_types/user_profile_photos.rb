@@ -8,7 +8,7 @@ module Telegrammer
     # See more at https://core.telegram.org/bots/api#userprofilephotos
     class UserProfilePhotos < Telegrammer::DataTypes::Base
       attribute :total_count, Integer
-      attribute :photos, Array[PhotoSize]
+      attribute :photos, PhotoArray
     end
   end
 end

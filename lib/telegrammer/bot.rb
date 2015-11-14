@@ -422,7 +422,7 @@ module Telegrammer
 
       response = api_request('getUserProfilePhotos', params, params_validation)
 
-      Telegrammer::DataTypes::UserProfilePhotos.new(response.result)
+      Telegrammer::DataTypes::UserProfilePhotos.new(response.result).to_h
     end
 
     # Get basic info about a file and prepare it for downloading.
