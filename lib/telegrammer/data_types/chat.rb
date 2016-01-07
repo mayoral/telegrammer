@@ -3,7 +3,7 @@ module Telegrammer
     # Telegram Chat data type
     #
     # @attr [Integer] id Unique identifier for this chat, not exceeding 1e13 by absolute value
-    # @attr [String] type Type of chat, can be either “private”, or “group”, or “channel”
+    # @attr [String] type Type of chat, can be either “private”, “group”, “supergroup” or “channel”
     # @attr [String] title Optional. Title, for channels and group chats
     # @attr [String] username Optional. Username, for private chats and channels if available
     # @attr [String] first_name Optional. First name of the other party in a private chat

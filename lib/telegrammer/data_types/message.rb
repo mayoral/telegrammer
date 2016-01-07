@@ -25,6 +25,10 @@ module Telegrammer
     # @attr [Telegrammer::DataTypes::PhotoSize] new_chat_photo Optional. A group photo was change to this value
     # @attr [Boolean] delete_chat_photo Optional. Informs that the group photo was deleted
     # @attr [Boolean] group_chat_created Optional. Informs that the group has been created
+    # @attr [Boolean] supergroup_chat_created Optional. Service message: the supergroup has been created
+    # @attr [Boolean] channel_chat_created Optional. Service message: the channel has been created
+    # @attr [Integer] migrate_to_chat_id Optional. The group has been migrated to a supergroup with the specified identifier, not exceeding 1e13 by absolute value
+    # @attr [Integer] migrate_from_chat_id Optional. The supergroup has been migrated from a group with the specified identifier, not exceeding 1e13 by absolute value
     #
     # See more at https://core.telegram.org/bots/api#message
     class Message < Telegrammer::DataTypes::Base
@@ -50,6 +54,10 @@ module Telegrammer
       attribute :new_chat_photo, Array[PhotoSize]
       attribute :delete_chat_photo, Boolean
       attribute :group_chat_created, Boolean
+      attribute :supergroup_chat_created, Boolean
+      attribute :channel_chat_created, Boolean
+      attribute :migrate_from_chat_id, Integer
+      attribute :migrate_to_chat_id, Integer
     end
   end
 end
