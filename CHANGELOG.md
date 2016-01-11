@@ -1,3 +1,10 @@
+v0.7.0
+======
+
+* Added support for supergroups (https://telegram.org/blog/supergroups).
+* Added support for the new inline mode (https://core.telegram.org/bots/inline).
+* Gem is now up to date with API version 2016-01-04 (https://core.telegram.org/bots/api-changelog#january-4-2016).
+
 v0.6.2
 ======
 
