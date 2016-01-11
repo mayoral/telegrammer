@@ -26,6 +26,14 @@ require 'telegrammer/data_types/reply_keyboard_markup'
 require 'telegrammer/data_types/update'
 require 'telegrammer/data_types/user_profile_photos'
 
+require 'telegrammer/data_types/chosen_inline_result'
+require 'telegrammer/data_types/inline_query'
+require 'telegrammer/data_types/inline_query_result_article'
+require 'telegrammer/data_types/inline_query_result_gif'
+require 'telegrammer/data_types/inline_query_result_mpeg4_gif'
+require 'telegrammer/data_types/inline_query_result_photo'
+require 'telegrammer/data_types/inline_query_result_video'
+
 require 'telegrammer/bot'
 require 'telegrammer/api_response'
 

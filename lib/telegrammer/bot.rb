@@ -443,10 +443,53 @@ module Telegrammer
         file_id: { required: true, class: [String] }
       }
 
-      response = response = api_request("getFile", params, params_validation)
+      response = api_request("getFile", params, params_validation)
       file_object = Telegrammer::DataTypes::File.new(response.result)
 
       "#{API_ENDPOINT}/file/bot#{@api_token}/#{file_object.file_path}"
+    end
+
+    # Answer an inline query. On success, True is returned. No more than 50 results per query are allowed.
+    #
+    # @param [Hash] params hash of paramers to send to the answerInlineQuery API operation.
+    # @option params [String] :inline_query_id Required. Unique identifier for the answered query
+    # @option params [Array] :results Required. An array of InlineQueryResults objects for the inline query
+    # @option params [Fixnum] :cache_time Optional. The maximum amount of time the result of the inline query may be cached on the server
+    # @option params [TrueClass,FalseClass] :is_personal Optional. Pass True, if results may be cached on the server side only for the user that sent the query. By default, results may be returned to any user who sends the same query
+    # @option params [String] :next_offset Optional. Pass the offset that a client should send in the next query with the same text to receive more results. Pass an empty string if there are no more results or if you don‘t support pagination. Offset length can’t exceed 64 bytes.
+
+    #
+    # @example
+    #     bot = Telegrammer::Bot.new('[YOUR TELEGRAM TOKEN]')
+    #
+    #     bot.get_updates do |message|
+    #       inline_query = message.inline_query
+    #
+    #       if inline_query
+    #         results = the_search_in_my_app(inline_query.query)
+    #
+    #         bot.answer_inline_query(
+    #           inline_query_id: "my-internal-query-id",
+    #           results: results
+    #         )
+    #       end
+    #     end
+
+    #
+    # @raise [Telegrammer::Errors::BadRequestError]
+    # @raise [Telegrammer::Errors::ServiceUnavailableError] if Telegram servers are down
+    #
+    # @return [TrueClass] True if all was OK
+    def answer_inline_query(params)
+      params_validation = {
+        inline_query_id: { required: true, class: [String] },
+        results: { required: true, class: [Array] },
+        cache_time: { required: false, class: [Fixnum] },
+        is_personal: { required: false, class: [TrueClass, FalseClass] },
+        next_offset: { required: false, class: [String] }
+      }
+
+      response = api_request("answerInlineQuery", params, params_validation)
     end
 
     private
