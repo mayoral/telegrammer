@@ -1,3 +1,9 @@
+v0.7.1
+======
+
+* Fixed order loading Telegrammer classes for inline mode (reported by markkuit in #17).
+* Better examples in the docs for get_updates & answer_inline_query methods.
+
 v0.7.0
 ======
 
