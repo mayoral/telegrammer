@@ -16,7 +16,7 @@ module Telegrammer
     #
     # See more at https://core.telegram.org/bots/api#inlinequeryresultgif
     class InlineQueryResultGif < Telegrammer::DataTypes::Base
-      attribute :type, String
+      attribute :type, String, default: 'gif'
       attribute :id, String
       attribute :gif_url, String
       attribute :gif_width, Integer

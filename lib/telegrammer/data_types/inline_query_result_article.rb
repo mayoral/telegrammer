@@ -17,7 +17,7 @@ module Telegrammer
     #
     # See more at https://core.telegram.org/bots/api#inlinequeryresultarticle
     class InlineQueryResultArticle < Telegrammer::DataTypes::Base
-      attribute :type, String
+      attribute :type, String, default: 'article'
       attribute :id, String
       attribute :title, String
       attribute :message_text, String

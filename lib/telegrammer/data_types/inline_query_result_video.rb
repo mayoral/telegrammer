@@ -18,7 +18,7 @@ module Telegrammer
     #
     # See more at https://core.telegram.org/bots/api#inlinequeryresultvideo
     class InlineQueryResultVideo < Telegrammer::DataTypes::Base
-      attribute :type, String
+      attribute :type, String, default: 'video'
       attribute :id, String
       attribute :video_url, String
       attribute :mime_type, String

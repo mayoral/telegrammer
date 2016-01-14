@@ -16,7 +16,7 @@ module Telegrammer
     #
     # See more at https://core.telegram.org/bots/api#inlinequeryresultmpeg4gif
     class InlineQueryResultMpeg4Gif < Telegrammer::DataTypes::Base
-      attribute :type, String
+      attribute :type, String, default: 'mpeg4_gif'
       attribute :id, String
       attribute :mpeg4_url, String
       attribute :mpeg4_width, Integer

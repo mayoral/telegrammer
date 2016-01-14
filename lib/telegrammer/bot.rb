@@ -34,17 +34,21 @@ module Telegrammer
     # @example
     #     bot = Telegrammer::Bot.new('[YOUR TELEGRAM TOKEN]')
     #
-    #     bot.get_updates do |message|
-    #       puts "In chat #{message.chat.id}, @#{message.from.username} said: #{message.text}"
-    #       bot.send_message(chat_id: message.chat.id, text: "You said: #{message.text}")
+    #     bot.get_updates do |update|
+    #       if update.is_a?(Telegrammer::DataTypes::Message)
+    #         puts "In chat #{update.chat.id}, @#{update.from.username} said: #{update.text}"
+    #         bot.send_message(chat_id: update.chat.id, text: "You said: #{update.text}")
+    #       end
     #
     #       # Here you can also process message text to detect user commands
     #       # To learn more about commands, see https://core.telegram.org/bots#commands
     #     end
     #
     #     bot.get_updates({fail_silently:true, timeout:20}) do |message|
-    #       puts "In chat #{message.chat.id}, @#{message.from.username} said: #{message.text}"
-    #       bot.send_message(chat_id: message.chat.id, text: "You said: #{message.text}")
+    #       if update.is_a?(Telegrammer::DataTypes::Message)
+    #         puts "In chat #{message.chat.id}, @#{message.from.username} said: #{update.text}"
+    #         bot.send_message(chat_id: message.chat.id, text: "You said: #{update.text}")
+    #       end
     #
     #       # Here you can also process message text to detect user commands
     #       # To learn more about commands, see https://core.telegram.org/bots#commands
@@ -64,7 +68,7 @@ module Telegrammer
         response.result.each do |raw_update|
           update = Telegrammer::DataTypes::Update.new(raw_update)
           @offset = update.update_id + 1
-          yield update.message
+          yield (update.inline_query ? update.inline_query : update.message)
         end
       end
     end
@@ -462,16 +466,18 @@ module Telegrammer
     # @example
     #     bot = Telegrammer::Bot.new('[YOUR TELEGRAM TOKEN]')
     #
-    #     bot.get_updates do |message|
-    #       inline_query = message.inline_query
+    #     bot.get_updates do |update|
+    #       if update.is_a?(Telegrammer::DataTypes::InlineQuery)
+    #         inline_query = message.inline_query
     #
-    #       if inline_query
-    #         results = the_search_in_my_app(inline_query.query)
+    #         if inline_query
+    #           results = the_search_in_my_app(inline_query.query)
     #
-    #         bot.answer_inline_query(
-    #           inline_query_id: "my-internal-query-id",
-    #           results: results
-    #         )
+    #           bot.answer_inline_query(
+    #             inline_query_id: "my-internal-query-id",
+    #             results: results
+    #           )
+    #         end
     #       end
     #     end
 
