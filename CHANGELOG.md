@@ -1,7 +1,14 @@
+Unreleased
+======
+
+* Bots API 2.0 support:
+  - Updated data types.
+* Gem is now up to date with API version 2016-05-06 (https://core.telegram.org/bots/api-changelog#may-6-2016).
+
 v0.8.0
 ======
 
-* Support for collecting inline feedback
+* Support for collecting inline feedback.
 * Gem is now up to date with API version 2016-01-20 (https://core.telegram.org/bots/api-changelog#january-20-2016).
 
 v0.7.1

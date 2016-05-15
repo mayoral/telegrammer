@@ -7,6 +7,7 @@ module Telegrammer
     # @attr [DateTime] date Date the message was sent
     # @attr [Telegrammer::DataTypes::Chat] chat Conversation the message belongs to
     # @attr [Telegrammer::DataTypes::User] forward_from Optional. For forwarded messages, sender of the original message
+    # @attr [Telegrammer::DataTypes::Chat] forward_from_chat Optional. For messages forwarded from a channel, information about the original channel
     # @attr [DateTime] forward_date Optional. For forwarded messages, date the original message was sent
     # @attr [Telegrammer::DataTypes::Message] reply_to_message Optional. For replies, the original message. Note that the Message object in this field will not contain further reply_to_message fields even if it itself is a reply.
     # @attr [String] text Optional. For text messages, the actual UTF-8 text of the message
@@ -37,6 +38,7 @@ module Telegrammer
       attribute :date, DateTime
       attribute :chat, Chat
       attribute :forward_from, User
+      attribute :forward_from_chat, Chat
       attribute :forward_date, DateTime
       attribute :reply_to_message, Message
       attribute :text, String
